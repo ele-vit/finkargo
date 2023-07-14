@@ -19,7 +19,7 @@ class UserService():
                 user_schema.password).decode('utf-8')
             user_schema.password = hashed_password
             created_user = self.user_repository.create(user_schema)
-            return "User created successfully", 201
+            return created_user.to_dict(), 201
         except IntegrityError as e:
             return str(MyCustomException(str(e.orig.args[0]))), 409
         except ValidationError as e:

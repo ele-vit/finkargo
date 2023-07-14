@@ -4,6 +4,7 @@ from app.services.matrix_service import  TheMatrixHasYou
 from app.middleware.auth_middleware import requires_auth
 from app.schemas.matrix_schema import MatrixSchema
 
+
 @app.route("/matrix", methods=["POST"])
 @requires_auth
 def matrix(current_user):

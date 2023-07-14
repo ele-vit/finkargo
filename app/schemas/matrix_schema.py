@@ -1,11 +1,11 @@
 from typing import List
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator
 
 
 class MatrixSchema(BaseModel):
     unclassified: List[int]
 
-    @validator('unclassified')
+    @field_validator('unclassified')
     def field_must_be_populated(cls, value):
         if not value:
             raise ValueError('This field must be complete')

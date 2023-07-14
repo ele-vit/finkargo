@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import List, Optional
-from pydantic import BaseModel, EmailStr, validator
+from pydantic import BaseModel, EmailStr, field_validator
 
 
 class SignUpSchema(BaseModel):
@@ -8,13 +8,13 @@ class SignUpSchema(BaseModel):
     email: EmailStr
     password: str
 
-    @validator('username', 'email', 'password')
+    @field_validator('username', 'email', 'password')
     def field_must_be_populated(cls, value):
         if not value:
             raise ValueError('This field must be complete')
         return value
 
-    @validator('email')
+    @field_validator('email')
     def email_must_be_valid(cls, email):
         import re
         pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
@@ -27,13 +27,13 @@ class SignInSchema(BaseModel):
     email: EmailStr
     password: str
 
-    @validator('email', 'password')
+    @field_validator('email', 'password')
     def field_must_be_populated(cls, value):
         if not value:
             raise ValueError('This field must be complete')
         return value
 
-    @validator('email')
+    @field_validator('email')
     def email_must_be_valid(cls, email):
         import re
         pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
