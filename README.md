@@ -30,4 +30,4 @@
 
 ### Construido con 🛠️
 
-* [FastAPI](https://fastapi.tiangolo.com/)
+* [Flask](https://flask.palletsprojects.com/en/2.3.x/)
