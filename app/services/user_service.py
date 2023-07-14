@@ -1,9 +1,10 @@
+from pydantic import ValidationError
 from sqlalchemy.exc import IntegrityError
-from app.utils.exceptions import MyCustomException
-from app.utils.jwt import generate_token
+
 from app import bcrypt
 from app.repositories.user_repository import UserRepository
-from pydantic import ValidationError
+from app.utils.exceptions import MyCustomException
+from app.utils.jwt import generate_token
 
 
 class UserService():
@@ -21,7 +22,9 @@ class UserService():
             created_user = self.user_repository.create(user_schema)
             return created_user.to_dict(), 201
         except IntegrityError as e:
-            return {"message": str(MyCustomException(str(e.orig.args[0])))}, 409
+            return {
+                "message": str(MyCustomException(str(e.orig.args[0])))
+            }, 409
         except ValidationError as e:
             errors = []
             for error in e.errors():
@@ -41,18 +44,22 @@ class UserService():
             else:
                 return {"message": "User not valid"}, 401
         except IntegrityError as e:
-            return {"message": str(MyCustomException(str(e.orig.args[0])))}, 409
+            return {
+                "message": str(MyCustomException(str(e.orig.args[0])))
+            }, 409
         except ValidationError as e:
             errors = []
             for error in e.errors():
                 errors.append(
                     {'field': error['loc'][0], 'message': error['msg']})
             return errors, 400
-    
+
     def log_out(self):
         try:
             usr_schema = self.schema(id=self.user)
-            response, status_code = self.user_repository.delete_token(usr_schema.id)
+            response, status_code = self.user_repository.delete_token(
+                usr_schema.id
+            )
             return response, status_code
         except IntegrityError as e:
             return str(MyCustomException(str(e.orig.args[0]))), 409

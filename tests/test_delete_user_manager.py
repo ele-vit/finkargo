@@ -1,4 +1,5 @@
 from flask import json
+
 from tests import headers
 
 
@@ -9,8 +10,8 @@ def test_delete_user(client):
         "password": "password"
     }
     user = client.post("/user", data=json.dumps(data),
-                           headers=headers, content_type="application/json").json
-    response = client.delete("/user/"+str(user['id']), headers=headers,
+                       headers=headers, content_type="application/json").json
+    response = client.delete("/user/" + str(user['id']), headers=headers,
                              content_type="application/json")
     assert response.status_code == 201
     result = json.loads(response.data)

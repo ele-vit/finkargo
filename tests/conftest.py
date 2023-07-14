@@ -1,5 +1,7 @@
 import pytest
+
 from app import app, db
+
 
 @pytest.fixture(scope="session")
 def client():

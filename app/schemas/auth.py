@@ -1,5 +1,3 @@
-from datetime import datetime
-from typing import List, Optional
 from pydantic import BaseModel, EmailStr, field_validator
 
 
@@ -21,7 +19,7 @@ class SignUpSchema(BaseModel):
         if not re.match(pattern, email):
             raise ValueError('The email field is invalid')
         return email
-    
+
 
 class SignInSchema(BaseModel):
     email: EmailStr

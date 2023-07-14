@@ -1,13 +1,14 @@
-from app import app
-from app.utils.jwt import decode_token
 from functools import wraps
-from flask import request, jsonify
+
+from flask import jsonify, request
+
 from app.repositories.user_repository import UserRepository
+from app.utils.jwt import decode_token
+
 
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        auth = request.authorization
         token = None
 
         if 'Authorization' in request.headers:
@@ -24,7 +25,7 @@ def requires_auth(f):
             user = user_repository.find_token(token, current_user)
             if not user:
                 return jsonify({'message': 'Access not granted'}), 401
-        except:
+        except BaseException:
             return jsonify({'message': 'Access not granted'}), 401
 
         return f(current_user, *args, **kwargs)

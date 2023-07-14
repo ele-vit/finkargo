@@ -1,4 +1,5 @@
 from flask import json
+
 from tests import headers
 
 
@@ -14,6 +15,7 @@ def test_create_user(client):
     result = json.loads(response.data)
     assert result['username'] == data['username']
 
+
 def test_create_user_already_exist(client):
     data = {
         "username": "carlos",
@@ -26,6 +28,7 @@ def test_create_user_already_exist(client):
     result = json.loads(response.data)
     assert 'duplicate key' in result['message']
 
+
 def test_create_user_value_error(client):
     data = {
         "username": "",
@@ -37,6 +40,7 @@ def test_create_user_value_error(client):
     assert response.status_code == 400
     result = json.loads(response.data)
     assert 'Value error' in result[0]['message']
+
 
 def test_create_user_not_data(client):
     data = {

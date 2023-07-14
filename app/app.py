@@ -1,12 +1,7 @@
 from flask import Flask
-from app import config
 
-from app.controllers import (
-    matrix,
-    financial_statements,
-    user_manager,
-    auth
-)
+from app import config
+from app.controllers import auth, financial_statements, matrix, user_manager
 
 
 def create_app():

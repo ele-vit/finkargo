@@ -1,13 +1,10 @@
-from flask import jsonify, request
+from flask import request
+
 from app import app
-from app.services.user_service import UserService
 from app.middleware.auth_middleware import requires_auth
-from app.utils.exceptions import MyCustomException
 from app.schemas.auth import SignUpSchema
-from app.schemas.user_schema import (
-    GetUserSchema,
-    UpdateUserSchema
-)
+from app.schemas.user_schema import GetUserSchema, UpdateUserSchema
+from app.services.user_service import UserService
 
 
 @app.route("/user", methods=["POST"])

@@ -28,13 +28,18 @@ build:
 	make down-api
 	make restart-api
 	make log-api
+	make precommit
+
+
+pre:
+	pre-commit run --all-files
 
 deploy-api:
 	docker-compose up -d --build
 
 down-api:
 	docker-compose down
-	
+
 log-api:
 	docker-compose logs -f -t
 

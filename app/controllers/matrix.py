@@ -1,8 +1,9 @@
 from flask import jsonify, request
+
 from app import app
-from app.services.matrix_service import  TheMatrixHasYou
 from app.middleware.auth_middleware import requires_auth
 from app.schemas.matrix_schema import MatrixSchema
+from app.services.matrix_service import TheMatrixHasYou
 
 
 @app.route("/matrix", methods=["POST"])

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Finkargo
 
 ### Instrucciones Entorno Local con Docker-Compose
@@ -12,9 +13,9 @@
 
 3. en el archivo Makefile tendrá los comandos necesarios para desplegar el api:
 
-    `make deploy-api`    
-    `make down-api`     
-    `make log-api`  
+    `make deploy-api`
+    `make down-api`
+    `make log-api`
     `make restart-api`
 
 ## Pre-requisitos 📋

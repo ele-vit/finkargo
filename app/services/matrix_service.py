@@ -1,4 +1,6 @@
 from pydantic import ValidationError
+
+
 class TheMatrixHasYou():
 
     def __init__(self, schema, data):
@@ -11,7 +13,10 @@ class TheMatrixHasYou():
             sorted_array = sorted(array.unclassified)
             duplicates = [x for x in sorted_array if sorted_array.count(x) > 1]
             unique_elements = list(set(sorted_array))
-            return {"unclassified": array.unclassified, "classified": unique_elements + duplicates}, 201
+            return {
+                "unclassified": array.unclassified,
+                "classified": unique_elements + duplicates
+            }, 201
         except IndexError as e:
             return {"message": str(e)}, 500
         except ValidationError as e:
