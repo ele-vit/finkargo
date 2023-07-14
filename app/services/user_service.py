@@ -21,7 +21,7 @@ class UserService():
             created_user = self.user_repository.create(user_schema)
             return created_user.to_dict(), 201
         except IntegrityError as e:
-            return str(MyCustomException(str(e.orig.args[0]))), 409
+            return {"message": str(MyCustomException(str(e.orig.args[0])))}, 409
         except ValidationError as e:
             errors = []
             for error in e.errors():
@@ -35,9 +35,25 @@ class UserService():
             user = self.user_repository.find_user(
                 self.user['email'], self.user['password'])
             if user:
-                return generate_token(user.id), 201
+                token = generate_token(user.id)
+                self.user_repository.save_token(token, user.id)
+                return {"token": token}, 201
             else:
-                return str(MyCustomException("User not valid")), 401
+                return {"message": "User not valid"}, 401
+        except IntegrityError as e:
+            return {"message": str(MyCustomException(str(e.orig.args[0])))}, 409
+        except ValidationError as e:
+            errors = []
+            for error in e.errors():
+                errors.append(
+                    {'field': error['loc'][0], 'message': error['msg']})
+            return errors, 400
+    
+    def log_out(self):
+        try:
+            usr_schema = self.schema(id=self.user)
+            response, status_code = self.user_repository.delete_token(usr_schema.id)
+            return response, status_code
         except IntegrityError as e:
             return str(MyCustomException(str(e.orig.args[0]))), 409
         except ValidationError as e:

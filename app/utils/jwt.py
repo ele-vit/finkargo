@@ -1,8 +1,14 @@
 from app import app
+import datetime
 import jwt
 
 def generate_token(user_id):
-    token = jwt.encode({'user_id': str(user_id)}, app.config['SECRET_KEY'])
+    payload = {
+        'user_id': str(user_id),
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
+    }
+
+    token = jwt.encode(payload, app.config['SECRET_KEY'])
     return token
 
 def decode_token(token):

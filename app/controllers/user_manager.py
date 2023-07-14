@@ -14,8 +14,8 @@ from app.schemas.user_schema import (
 @requires_auth
 def create_user(current_user):
     user_service = UserService(request.get_json(), SignUpSchema)
-    message, status_code = user_service.create_user()
-    return jsonify({'message': message}), status_code
+    response, status_code = user_service.create_user()
+    return response, status_code
 
 
 @app.route("/user/<user_id>", methods=["GET"])
@@ -42,8 +42,3 @@ def delete_user(current_user, user_id):
     user_service = UserService(user_id, GetUserSchema)
     response, status_code = user_service.delete_user()
     return response, status_code
-    # result = user_service.delete_user(user_id)
-    # if result:
-    #     return jsonify({"message": "User deleted successfully"}), 200
-    # else:
-    #     return jsonify({"error": "User not found"}), 404

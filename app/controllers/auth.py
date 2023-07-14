@@ -2,16 +2,27 @@ from flask import jsonify, request
 from app import app
 from app.services.user_service import UserService
 from app.schemas.auth import SignUpSchema, SignInSchema
+from app.schemas.user_schema import GetUserSchema
+from app.middleware.auth_middleware import requires_auth
+
 
 @app.route("/sign-up", methods=["POST"])
 def sign_up():
     user_service = UserService(request.get_json(), SignUpSchema)
-    message, status_code = user_service.create_user()
-    return jsonify({'message': message}), status_code
+    response, status_code = user_service.create_user()
+    return response, status_code
 
 
 @app.route("/sign-in", methods=["POST"])
 def login():
     user_service = UserService(request.get_json(), SignInSchema)
-    token, status_code = user_service.login()
-    return jsonify({'token': token}), status_code
+    response, status_code = user_service.login()
+    return response, status_code
+
+
+@app.route("/log-out", methods=["GET"])
+@requires_auth
+def log_out(current_user):
+    user_service = UserService(current_user, GetUserSchema)
+    response, status_code = user_service.log_out()
+    return response, status_code
